@@ -3,14 +3,12 @@
 <mapper namespace="com.example.first_spring.mapper.MainMapper">
 	<select id="getEmpList" resultType="EmpVO">
 		SELECT
-			empno,
-			ename,
-			job
+			*
 		FROM emp
 	</select>
 	<select id="getEmp" resultType="EmpVO">
 		SELECT
-			ename
+			*
 		FROM emp
 		WHERE empno = 7499
 	</select>
