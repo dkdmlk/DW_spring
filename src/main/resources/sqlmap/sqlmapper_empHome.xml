@@ -46,12 +46,12 @@
 		WHERE job = #{jobName}
 	</select>
 	<!-- (join 문제)*문제 5. 사원번호 7782를 파라미터로 받고 해당 사원의 모든 정보(부서번호, 부서이름, 부서위치 포함) 조회 -->
-	<select id="getEmpnoAllData" resultType="EmpVO">
+	<select id="getEmpnoAllData" resultType="JoinVO">
 		SELECT
 		*
 	FROM emp as e
-	INNER JOIN dept as d
-	ON e.deptnoe.deptno = d.deptno
+	Inner JOIN dept as d
+	ON e.deptno = d.deptno
 	WHERE
 		e.empno = #{empno}
 	</select>
