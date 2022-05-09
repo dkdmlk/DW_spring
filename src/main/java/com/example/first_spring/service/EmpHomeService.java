@@ -1,13 +1,14 @@
 package com.example.first_spring.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.first_spring.mapper.EmpMapper;
 import com.example.first_spring.vo.EmpVO;
-import com.example.first_spring.vo.JoinVo;
 
 @Service
 public class EmpHomeService {
@@ -34,7 +35,54 @@ public class EmpHomeService {
 		return EmpMapper.getJobMANAGER(job);
 	}
 		//(join 문제)*문제 5. 사원번호 7782를 파라미터로 받고 해당 사원의 모든 정보(부서번호, 부서이름, 부서위치 포함) 조회
-	public JoinVo getEmpnoAllData(int empno) {
+	public EmpVO getEmpnoAllData(int empno) {
 			return EmpMapper.getEmpnoAllData(empno);
 	}
+	//insert
+	//rollbackfor: 이전 commit으로 돌아감
+	//Exception : 모든에러를 잡아준다.
+	@Transactional(rollbackFor = {Exception.class})
+	public int setEmp(EmpVO vo) {
+		int rows = EmpMapper.insertEmp(vo);//몇행 insert 되었는지 리턴
+		return rows;
+	}
+	//delet
+	@Transactional(rollbackFor = {Exception.class})
+	public int getEmpRemoveCount(int empNo) {
+		int rows = EmpMapper.deleteEmp(empNo);//몇행 delet 되었는지 리턴
+		return rows;
+	}
+	
+	@Transactional(rollbackFor = {Exception.class})
+	public int getEmpUpdateCount(EmpVO vo) {
+		int rows = EmpMapper.updateEmp(vo);//몇행 update 되었는지 리턴
+		return rows;
+	}
+	@Transactional(rollbackFor = Exception.class)
+	public List<EmpVO> getEmp(String job,int sal){
+		
+		if(job.equals("SALESMAN")) {
+			return null;
+		}
+		
+		List<EmpVO> list = EmpMapper.selectEmpWhereJobAndSal(job, sal);
+		int comm = 500; //커미션
+		int rows = 0;
+		
+		for(int i=0; i<list.size(); i++) {
+			int empComm = list.get(i).getComm();
+			int sum = empComm + comm;
+			list.get(i).setComm(sum);
+			EmpVO vo = list.get(i);	
+			rows += EmpMapper.updateEmp(vo);
+		}
+		
+		if(rows > 0) {
+			return EmpMapper.selectEmpWhereJobAndSal(job, sal);
+		}
+		
+		return null;
+	}
+
+	
 }

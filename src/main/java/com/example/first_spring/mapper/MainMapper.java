@@ -11,4 +11,5 @@ public interface MainMapper {
 	public List<EmpVO> getEmpList();
 	
 	public EmpVO getEmp();
+	
 }

@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 @Data
-public class EmpVO {
+public class EmpVO extends DeptVO{
 	private int empno;
 	private String ename;
 	private String job;
@@ -19,4 +19,5 @@ public class EmpVO {
 	private Date hiredate;
 	private int sal;
 	private int comm;
+
 }

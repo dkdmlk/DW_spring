@@ -3,9 +3,9 @@ package com.example.first_spring.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.example.first_spring.vo.EmpVO;
-import com.example.first_spring.vo.JoinVo;
 
 @Mapper
 public interface EmpMapper {
@@ -21,6 +21,17 @@ public interface EmpMapper {
 	//문제 4. MANAGER를 파라미터로 받고 job이 MANAGER 중 입사날짜가 가장 빠른 사원의 이름, 입사날짜, 급여 조회 
 	public EmpVO getJobMANAGER(String job);
 	//(join 문제)*문제 5. 사원번호 7782를 파라미터로 받고 해당 사원의 모든 정보(부서번호, 부서이름, 부서위치 포함) 조회
-	public JoinVo getEmpnoAllData(int empno);
+	public EmpVO getEmpnoAllData(int empno);
+	//인설트
+	public int insertEmp(EmpVO empVO);
+	//데이터 삭제 PK로 삭제 하기떄문에 PK인 empno를 delet
+	public int deleteEmp(int empno); 
+	//업데이트
+	public int updateEmp(EmpVO empVO);
+	//mybatis에 2개 이상 파라미터를 넘길 때는 @Param이용해서 이름 지정!
+		public List<EmpVO> selectEmpWhereJobAndSal(
+				@Param("job") String job,
+				@Param("sal") int sal);
+
 	
 }

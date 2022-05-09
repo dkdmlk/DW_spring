@@ -1,14 +1,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- MyBatis에게 Mapper 경로를 적어야 한다. -->
 <mapper namespace="com.example.first_spring.mapper.EmpMapper">
+	
+	
 	<!-- 문제 0. 급여 1500을 파라미터로 받고 부서가 10, 30에 속하는 사원 중 급여가 1500을 넘는 사원의 이름 및 급여 조회. -->
 	<select id="getSalName" resultType="EmpVO">
 		SELECT
 			ename,
 			sal
 		FROM emp
-		WHERE
-			(deptno = 10 or deptno = 30)
+		WHERE (deptno = 10 or deptno = 30)
 			and
 			sal > #{sal}
 	</select>
@@ -17,16 +18,14 @@
 		SELECT
 			ename
 		FROM emp
-		WHERE
-			mgr is null
+		WHERE mgr is null
 	</select>
 	<!-- 문제 2. 1987년도를 파리미터로 받고 해당 년도에 입사한 사원 조회 -->
 	<select id="getHideDate" resultType="EmpVO">
 		SELECT
 			ename
 		FROM emp
-		WHERE
-			date_format(hiredate,'%Y') = #{year}
+		WHERE date_format(hiredate,'%Y') = #{year}
 	</select>
 	<!-- 문제 3. 12월를 파라미터로 받고 해당 월에 입사한 사원 중 급여가 가장 많은 사원 조회 -->
 	<select id="getHideDatasal" resultType="EmpVO">
@@ -46,13 +45,59 @@
 		WHERE job = #{jobName}
 	</select>
 	<!-- (join 문제)*문제 5. 사원번호 7782를 파라미터로 받고 해당 사원의 모든 정보(부서번호, 부서이름, 부서위치 포함) 조회 -->
-	<select id="getEmpnoAllData" resultType="JoinVO">
+	<select id="getEmpnoAllData" resultType="EmpVO">
 		SELECT
-		*
-	FROM emp as e
-	Inner JOIN dept as d
-	ON e.deptno = d.deptno
-	WHERE
-		e.empno = #{empno}
+			*
+		FROM emp as e
+		Inner JOIN dept as d
+		ON e.deptno = d.deptno
+		WHERE e.empno = #{empno}
 	</select>
+	
+	<!-- Oracle은 Mybatis Insert할 때 PK문법이 다름(시퀸스를 추가해야 함) -->
+	<insert id="insertEmp">
+		INSERT INTO emp
+		(
+			empno,
+			ename,
+			deptno,
+			hiredate,
+			job,
+			sal
+		)
+		VALUES
+		(
+			#{empno},
+			#{ename},
+			#{deptno},
+			now(),
+			#{job},
+			#{sal}
+		)
+	</insert>
+	
+	<delete id="deleteEmp">
+		DELETE FROM emp
+		WHERE empno = #{empno}
+	</delete>
+	
+	<update id="updateEmp">
+		UPDATE emp
+		SET
+			comm = #{comm}
+		WHERE empno = #{empno}
+	</update>
+	<select id="selectEmpWhereJobAndSal" resultType="EmpVO">
+		SELECT
+			empno,
+			ename,
+			job,
+			comm
+		FROM emp
+		WHERE 
+			job = #{job}
+		AND
+			sal >= #{sal}
+	</select>
+	
 </mapper>

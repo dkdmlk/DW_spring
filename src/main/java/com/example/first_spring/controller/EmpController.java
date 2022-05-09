@@ -3,8 +3,12 @@ package com.example.first_spring.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.first_spring.service.EmpHomeService;
@@ -42,9 +46,36 @@ public class EmpController {
 	}
 	//(join 문제)*문제 5. 사원번호 7782를 파라미터로 받고 해당 사원의 모든 정보(부서번호, 부서이름, 부서위치 포함) 조회
 	@GetMapping("/emp/empno/{empno}")
-	public JoinVo getEmpnoAllData(@PathVariable("empno") int empno) {
+	public EmpVO getEmpnoAllData(@PathVariable("empno") int empno) {
 		return empHomeService.getEmpnoAllData(empno);
-}
+	}
+	//emp테이블에 insert
+	//@PostMapping: 중요한 정보를 보내거나, 데이터를 보낼 때 post 사용
+	//대표적인 ex)회원가입
+	//@RequestBody가 파라미터로 넘어오는 VO클래스를 대신 new 해줌
+	@PostMapping("/emp")
+	public int callEepSet(@RequestBody EmpVO empVo) {
+		return empHomeService.setEmp(empVo);
+	}
+	
+	//@DeleteMapping: 자원 삭제할 때 사용
+	@DeleteMapping("/emp/empno/{empno}")
+	public int callEmpRemove(@PathVariable("empno") int empno) {
+		return empHomeService.getEmpRemoveCount(empno);
+	}
+	//update
+	@PatchMapping("/emp")
+	public int callEmpUpdate(@RequestBody EmpVO empVo) {
+		return empHomeService.getEmpUpdateCount(empVo);
+	}
+	@GetMapping("/emp/job/{jobName}/sal/{sal}")
+	public List<EmpVO> callEmp(@PathVariable("jobName") String jobName, 
+			@PathVariable("sal") int sal) {
+	
+		return empHomeService.getEmp(jobName, sal);
+	}
+
+	
 	
 }
 
