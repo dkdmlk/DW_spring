@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.first_spring.vo.EmpVO;
 
@@ -22,11 +23,12 @@ public interface EmpMapper {
 	public EmpVO getJobMANAGER(String job);
 	//(join 문제)*문제 5. 사원번호 7782를 파라미터로 받고 해당 사원의 모든 정보(부서번호, 부서이름, 부서위치 포함) 조회
 	public EmpVO getEmpnoAllData(int empno);
-	//인설트
+	
+	//insert : 한 행 에 insert하기에 파라미터값 empVO 리턴타입 int
 	public int insertEmp(EmpVO empVO);
-	//데이터 삭제 PK로 삭제 하기떄문에 PK인 empno를 delet
+	//delete 데이터 삭제 PK로 삭제 하기떄문에 PK인 empno를 파라미터값으로 받고 int 로 리턴
 	public int deleteEmp(int empno); 
-	//업데이트
+	//update 한 행 에 update를 하기에 파라미터값 empVO 리턴타입 int
 	public int updateEmp(EmpVO empVO);
 	//mybatis에 2개 이상 파라미터를 넘길 때는 @Param이용해서 이름 지정!
 	public List<EmpVO> selectEmpWhereJobAndSal(
@@ -39,4 +41,14 @@ public interface EmpMapper {
 	public List<EmpVO> selectFisrtNameA(String search);
 	
 	public List<EmpVO> selectEmpEname(String search);
+	
+//	public List<EmpVO> selectDeptSalA(@Param("deptno") int deptno,
+//			@Param("sal") int sal);
+	public List<EmpVO> selectEmpMgr(@Param("isMgr") String isMgr);
+	
+	public int  updateJobSal(EmpVO empVO);
+		
+	public EmpVO selectEmpCommSal(@Param("empno")int empno);
+	
+	public int updateEmpsal(EmpVO vo);
 }

@@ -106,7 +106,30 @@ public class EmpController {
 		return empHomeService.getEmpEname(search);
 	}
 	
+//	@GetMapping("/emp/dept/deptno/{deptno}/sal/{sal}")
+//	public List<EmpVO> callDeptSalA(@PathVariable("deptno") int deptno,@PathVariable("sal")int sal){
+//		return empHomeService.getDeptSalA(deptno, sal);
+//	}
 	
+	
+	//사원사수여부
+	@GetMapping("/emp/mgr/{isMgr}")
+	public List<EmpVO> callEmpIsMgrList(@PathVariable("isMgr") String isMgr){
+		return empHomeService.getEmpIsMgrList(isMgr);
+	}
+	/*문제 1. 사원번호가 7902번인 사원
+	job을 SALESMAN, Sal을 3500으로 수정*/
+	@PatchMapping("/emp/{empno}")
+	public int callEmpSalJobUpdate(@PathVariable("empno")int empno, @RequestBody EmpVO empvo) {
+		return empHomeService.getUpdateSalJob(empno, empvo);
+	}
+	/*문제2. 사원번호가 7844번인 사원의 
+		comm이 0이거나 null이면 기존 급여에서 500을 추가 (수정)하시오
+		comm 이 있다며 0을 리턴*/
+	@PatchMapping("/emp/empno/{empno}")
+	public int callEmpCommUpdate(@PathVariable("empno")int empno) {
+		return empHomeService.getEmpUpdateSalCount(empno);
+	}
 }
 
 

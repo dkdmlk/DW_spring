@@ -140,4 +140,65 @@
 		FROM emp
 		WHERE ename LIKE CONCAT(#{ename}, '%')
 	</select>
+	<!--deptno(부서번호)가 20번이고 sal(급여)이 2000초과인 직원 전체 조회 -->
+	<select id="selectDeptSalA" resultType="EmpVO">
+		SELECT
+			*
+		FROM 
+			emp as e
+		INNER JOIN 
+			dept as d
+		ON 
+			e.deptno = d.deptno
+		WHERE
+			d.deptno = #{deptno}
+		AND
+			e.sal > #{sal}
+	</select>
+
+	<!--	true 가 파라미터로 들어오면 사수가 있는 사원조회
+			flase가 파라미터로 들어오면 사수 없는 사원 조회 
+			Mybatis는 boolean형이 없기떄문에 문자로 비교해야함.
+	-->
+	<select id="selectEmpMgr" resultType="EmpVO">
+		SELECT
+			empno,
+			ename,
+			mgr
+		FROM 
+			emp
+		WHERE 1=1
+		<if test='isMgr.equals("true")'>
+			AND	mgr IS NOT NULL
+		</if>
+		<if test='isMgr.equals("false")'>
+			AND	mgr IS NULL
+		</if>
+	</select>
+	<update id="updateJobSal">
+		UPDATE emp
+			SET
+			job = #{job},
+			sal = #{sal}
+		WHERE empno = #{empno}
+	</update>
+	
+	<select id="selectEmpCommSal" resultType="EmpVO" >
+		select 
+			empno,
+			comm,
+			sal
+		from
+			emp
+		where 
+			empno = 7844
+	</select>
+	
+	<update id="updateEmpsal">
+		UPDATE emp
+		SET
+			sal = #{sal}
+		WHERE empno = #{empno}
+	</update>
+	
 </mapper>

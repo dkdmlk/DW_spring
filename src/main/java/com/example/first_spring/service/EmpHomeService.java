@@ -119,5 +119,39 @@ public class EmpHomeService {
 		System.out.println("이름이 A인 사람 수는! : " +count+"명");
 		return list;
 	}
+//	public List<EmpVO> getDeptSalA(int deptno,int sal){
+//		List<EmpVO> list = EmpMapper.selectDeptSalA(deptno, sal);
+//		List<EmpVO> list2 = new ArrayList<EmpVO>();
+//		for(int i=0; i<list.size();++i) {
+//			int comm = list.get(i).getComm();
+//			if(comm < 100 || comm == 0) {
+//				list2.add(list.get(i));
+//				return list2;
+//			}
+//		}
+//		return EmpMapper.selectDeptSalA(deptno, sal);
+//	}
 	
+	public List<EmpVO> getEmpIsMgrList(String isMgr){
+		return EmpMapper.selectEmpMgr(isMgr);
+	}
+	
+	public int getUpdateSalJob(int empno, EmpVO vo) {
+		vo.setEmpno(empno);
+		return EmpMapper.updateJobSal(vo);
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public int getEmpUpdateSalCount(int empno) {
+		EmpVO vo = EmpMapper.selectEmpCommSal(empno);
+		int comm = vo.getComm();
+		if(comm == 0) {
+			int bouns = 500;
+			int sal = vo.getSal();
+			vo.setSal(sal + bouns);
+			//Update 로직 추가
+			return EmpMapper.updateEmpsal(vo);
+		}
+		return 0;
+	}
 }
