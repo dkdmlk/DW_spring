@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class DeptVO {
-	private	String deptno; 
+	private	int deptno; 
 	private	String dname;
 	private	String loc;
 }

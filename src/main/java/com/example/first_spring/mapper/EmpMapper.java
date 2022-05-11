@@ -29,9 +29,14 @@ public interface EmpMapper {
 	//업데이트
 	public int updateEmp(EmpVO empVO);
 	//mybatis에 2개 이상 파라미터를 넘길 때는 @Param이용해서 이름 지정!
-		public List<EmpVO> selectEmpWhereJobAndSal(
-				@Param("job") String job,
-				@Param("sal") int sal);
-
+	public List<EmpVO> selectEmpWhereJobAndSal(
+			@Param("job") String job,
+			@Param("sal") int sal);
+	public EmpVO selectDept();
 	
+	public List<EmpVO> selectSalDelet();
+	
+	public List<EmpVO> selectFisrtNameA(String search);
+	
+	public List<EmpVO> selectEmpEname(String search);
 }

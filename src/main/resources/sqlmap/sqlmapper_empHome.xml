@@ -60,8 +60,8 @@
 		(
 			empno,
 			ename,
-			deptno,
 			hiredate,
+			deptno,
 			job,
 			sal
 		)
@@ -69,8 +69,8 @@
 		(
 			#{empno},
 			#{ename},
-			#{deptno},
 			now(),
+			#{deptno},
 			#{job},
 			#{sal}
 		)
@@ -100,4 +100,44 @@
 			sal >= #{sal}
 	</select>
 	
+	<!--1.Integer,String , EmpVO  -->
+	<select id="selectDept" resultType="EmpVO">
+		SELECT
+			d.deptno 
+		FROM 
+			emp as e
+		RIGHT JOIN 
+			dept as d
+		ON 
+			e.deptno = d.deptno
+		WHERE 
+			e.EMPNO is null
+	</select>
+	
+	<select id="selectSalDelet" resultType="EmpVO">
+		SELECT
+			EMPNO,
+			SAL,
+			ENAME
+		FROM 
+			emp
+		WHERE 
+			sal >= 3000
+	</select>
+	
+	<select id="selectFisrtNameA" resultType="EmpVO">
+		SELECT
+			ENAME
+		FROM
+			 emp 
+		WHERE
+			 ename like 'A%'
+	</select>
+	
+	<select id="selectEmpEname" resultType="EmpVO">
+		SELECT
+			*
+		FROM emp
+		WHERE ename LIKE CONCAT(#{ename}, '%')
+	</select>
 </mapper>

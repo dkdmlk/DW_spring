@@ -63,7 +63,7 @@ public class EmpService {
 				if(d3time <= userDateTime && d4time >= userDateTime) {
 					list2.add(list.get(i));
 				}
-			}
+			}	
 		}
 		return list2;
 	}

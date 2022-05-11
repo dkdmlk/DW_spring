@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.first_spring.service.EmpHomeService;
@@ -68,13 +69,42 @@ public class EmpController {
 	public int callEmpUpdate(@RequestBody EmpVO empVo) {
 		return empHomeService.getEmpUpdateCount(empVo);
 	}
+	
 	@GetMapping("/emp/job/{jobName}/sal/{sal}")
 	public List<EmpVO> callEmp(@PathVariable("jobName") String jobName, 
 			@PathVariable("sal") int sal) {
 	
 		return empHomeService.getEmp(jobName, sal);
 	}
-
+	
+	//쿼리스트링으로 getMapping
+	//tier?region=kr&name=inseok (추가로 검색할떄 & 사용)
+	//검색할 때 많이 사용
+	@GetMapping("/tier")
+	public String calltier(@RequestParam("region") String region,@RequestParam("name") String name) {
+		return region + ", " + name;
+	}
+	//board?page=1&pageSize=10&writer=강인석
+	//게시판의 페이지 행렬의수 작성자
+	@GetMapping("/board")
+	public int callBoard(@RequestParam("page")int page,
+	@RequestParam("pageSize")int pageSize,@RequestParam("writer") String writer) {
+		System.out.println("현재 페이지는 : "+page);
+		System.out.println("한 페이지에 보여주는 row 수는 : "+pageSize);
+		System.out.println("작성자는 : "+ writer);
+		return 0;
+	}
+	
+	// 문제1. A로시작하는 사람수 구하기 /emp/name?search=A
+//	@GetMapping("/emp/name")
+//	public List<EmpVO> callNameA(@RequestParam("search") String search){
+//		return empHomeService.getFirstNameA(search);
+//	}
+	
+	@GetMapping("/emp/name")
+	public List<EmpVO> callEmpEname(@RequestParam("search") String search){
+		return empHomeService.getEmpEname(search);
+	}
 	
 	
 }

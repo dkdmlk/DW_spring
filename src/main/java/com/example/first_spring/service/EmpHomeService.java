@@ -43,14 +43,27 @@ public class EmpHomeService {
 	//Exception : 모든에러를 잡아준다.
 	@Transactional(rollbackFor = {Exception.class})
 	public int setEmp(EmpVO vo) {
+		
+		EmpVO empvo = EmpMapper.selectDept();//empno가 null 인 detpno insert
+		int deptno = empvo.getDeptno();
+		vo.setDeptno(deptno);
 		int rows = EmpMapper.insertEmp(vo);//몇행 insert 되었는지 리턴
+		
 		return rows;
 	}
-	//delet
+	//delete
 	@Transactional(rollbackFor = {Exception.class})
 	public int getEmpRemoveCount(int empNo) {
-		int rows = EmpMapper.deleteEmp(empNo);//몇행 delet 되었는지 리턴
-		return rows;
+		List<EmpVO> list = EmpMapper.selectSalDelet();
+		int count = 0;
+		for(int i=0;i<list.size();++i) {
+			int empno = list.get(i).getEmpno();
+			if(empNo == empno) {
+				int rows = EmpMapper.deleteEmp(empNo);//몇행 delete 되었는지 리턴
+				return rows;
+			}
+		}
+		return 0;
 	}
 	
 	@Transactional(rollbackFor = {Exception.class})
@@ -83,6 +96,28 @@ public class EmpHomeService {
 		
 		return null;
 	}
-
+	
+//	public List<EmpVO> getFirstNameA(String search){
+//		List<EmpVO> list = EmpMapper.selectFisrtNameA(search);
+//		int count=0;
+//		for(int i=0;i<list.size();++i) {
+//			if(list.get(i).getEname().substring(0,1).equals(search)) {
+//				++count;
+//			}
+//		}
+//		return list;
+//	}
+	
+	public List<EmpVO> getEmpEname(String search){
+		List<EmpVO> list = EmpMapper.selectEmpEname(search);
+		int count=0;
+		for(int i=0;i<list.size();++i) {
+			if(list.get(i).getEname().substring(0,1).equals(search)) {
+				++count;
+			}
+		}
+		System.out.println("이름이 A인 사람 수는! : " +count+"명");
+		return list;
+	}
 	
 }
