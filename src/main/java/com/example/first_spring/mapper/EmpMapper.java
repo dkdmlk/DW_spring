@@ -56,4 +56,6 @@ public interface EmpMapper {
 	public List<Map<String, Object>> selectEmpMapList();
 	
 	public Map<String, Object> selectMapMaxsal();
+	
+	public Map<String, Object> selectMapMaxsal2();
 }

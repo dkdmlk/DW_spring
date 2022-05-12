@@ -171,4 +171,8 @@ public class EmpHomeService {
 		}
 		return EmpMapper.selectMapMaxsal();
 	}
+	
+	public Map<String, Object>getMapMaxSal2(){
+		return EmpMapper.selectMapMaxsal2();
+	}
 }

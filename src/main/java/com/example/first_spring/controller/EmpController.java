@@ -131,15 +131,18 @@ public class EmpController {
 		return empHomeService.getEmpUpdateSalCount(empno);
 	}
 	
-	@GetMapping("emp/map/list")
+	@GetMapping("/emp/map/list")
 	public List<Map<String, Object>> callEmpMapList(){
 		return empHomeService.getEmpMapList();
 	}
-	@GetMapping("emp/map/Maxsal")
+	@GetMapping("/emp/map/Maxsal")
 	public Map<String, Object> callMapMaxSal(){
 		return empHomeService.getMapMaxSal();
 	}
-	
+	@GetMapping("/emp/map/sal/Maxsal")
+	public Map<String, Object> callMapMaxSal2(){
+		return empHomeService.getMapMaxSal2();
+	}
 }
 
 

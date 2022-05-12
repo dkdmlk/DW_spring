@@ -228,7 +228,17 @@
 		FROM emp as e
 		Inner JOIN dept as d
 		on e.deptno = d.deptno
-		
+	</select>
+	
+	<select id="selectMapMaxsal2" resultType="map">
+		select 
+			max(sal),
+			sal,
+			ENAME,
+			empno,
+			comm 
+		from emp e
+		where sal = (select max(sal) from emp)
 	</select>
 	
 </mapper>
