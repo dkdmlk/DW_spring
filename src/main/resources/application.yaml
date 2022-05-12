@@ -1,3 +1,9 @@
+#제목과 버전 설정
+application:
+   version: v0.0.1
+   title: KANGINSEOK
+
+
 #MyBatis 설정
 mybatis:
    mapper-locations: classpath:/sqlmap/sqlmapper_*.xml

@@ -1,7 +1,8 @@
 package com.example.first_spring.service;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -153,5 +154,21 @@ public class EmpHomeService {
 			return EmpMapper.updateEmpsal(vo);
 		}
 		return 0;
+	}
+	
+	public List<Map<String, Object>> getEmpMapList(){
+		return EmpMapper.selectEmpMapList();
+	}
+	
+	public Map<String, Object> getMapMaxSal(){
+		List<Map<String, Object>> list=EmpMapper.selectEmpMapList();
+		Map<String, Object> map = EmpMapper.selectMapMaxsal();
+		for(Map<String, Object> i:list) {
+			Object sal = i.get("sal");
+			if(map.get("Max(sal)").equals(sal)) {
+				return i;
+			}
+		}
+		return EmpMapper.selectMapMaxsal();
 	}
 }

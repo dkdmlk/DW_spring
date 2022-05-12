@@ -1,6 +1,7 @@
 package com.example.first_spring.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.first_spring.service.EmpHomeService;
 import com.example.first_spring.vo.EmpVO;
-import com.example.first_spring.vo.JoinVo;
 @RestController
 public class EmpController {
 	@Autowired
@@ -130,6 +130,16 @@ public class EmpController {
 	public int callEmpCommUpdate(@PathVariable("empno")int empno) {
 		return empHomeService.getEmpUpdateSalCount(empno);
 	}
+	
+	@GetMapping("emp/map/list")
+	public List<Map<String, Object>> callEmpMapList(){
+		return empHomeService.getEmpMapList();
+	}
+	@GetMapping("emp/map/Maxsal")
+	public Map<String, Object> callMapMaxSal(){
+		return empHomeService.getMapMaxSal();
+	}
+	
 }
 
 

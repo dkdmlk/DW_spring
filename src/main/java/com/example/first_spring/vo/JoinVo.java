@@ -8,6 +8,9 @@ public class JoinVo {
 	private String ename;
 	private String job;
 	private String hiredate;
+	private int mgr;
+	private int sal;
+	private int comm;
 	private int deptno;
 	private String dname;
 	private String loc;

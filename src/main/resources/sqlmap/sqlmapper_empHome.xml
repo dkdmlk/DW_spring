@@ -184,13 +184,13 @@
 	</update>
 	
 	<select id="selectEmpCommSal" resultType="EmpVO" >
-		select 
+		SELECT 
 			empno,
 			comm,
 			sal
-		from
+		FROM
 			emp
-		where 
+		WHERE 
 			empno = 7844
 	</select>
 	
@@ -200,5 +200,35 @@
 			sal = #{sal}
 		WHERE empno = #{empno}
 	</update>
+	
+	<select id="selectEmpMapList" resultType="map">
+		SELECT
+			empno,
+			ename,
+			job,
+			sal,
+			e.deptno,
+			d.dname,
+			d.loc
+		FROM emp as e
+		Inner JOIN dept as d
+		on e.deptno = d.deptno
+	</select>
+	
+	<select id="selectMapMaxsal" resultType="map">
+		SELECT
+			empno,
+			ename,
+			job,
+			sal,
+			e.deptno,
+			d.dname,
+			d.loc,
+			Max(sal)
+		FROM emp as e
+		Inner JOIN dept as d
+		on e.deptno = d.deptno
+		
+	</select>
 	
 </mapper>
