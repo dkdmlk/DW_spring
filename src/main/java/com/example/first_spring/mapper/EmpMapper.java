@@ -36,26 +36,45 @@ public interface EmpMapper {
 			@Param("job") String job,
 			@Param("sal") int sal);
 	public EmpVO selectDept();
-	
+	/*
+	 특정이상의 급여받는 사람 지우기
+	 */
 	public List<EmpVO> selectSalDelet();
-	
+	/*첫번재 이름이 A인사람 찾기*/
 	public List<EmpVO> selectFisrtNameA(String search);
-	
+	/*첫번재 이름이 A인사람 찾기*/
 	public List<EmpVO> selectEmpEname(String search);
-	
+	/*
+	 특정직업과 특정급여이상을 받는 사람들의 comm 수정 
+	 */
 	public List<EmpVO> selectDeptSalA(@Param("deptno") int deptno,
 			@Param("sal") int sal);
 	public List<EmpVO> selectEmpMgr(@Param("isMgr") String isMgr);
-	
+	/*문제 1. 사원번호가 7902번인 사원
+	job을 SALESMAN, Sal을 3500으로 수정*/
 	public int  updateJobSal(EmpVO empVO);
-		
+	/*문제2. 사원번호가 7844번인 사원의 
+	comm이 0이거나 null이면 기존 급여에서 500을 추가 (수정)하시오
+	comm 이 있다며 0을 리턴
+	step1. comm이 null인사람찾기
+	*/
 	public EmpVO selectEmpCommSal(@Param("empno")int empno);
-	
+	/*문제2. 사원번호가 7844번인 사원의 
+	comm이 0이거나 null이면 기존 급여에서 500을 추가 (수정)하시오
+	comm 이 있다며 0을 리턴
+	step2. 기존 급여에서 500을 추가 (수정)하시오 comm 이 있다며 0을 리턴
+	*/
 	public int updateEmpsal(EmpVO vo);
-	
+	/*Map 으로 empList받기*/
 	public List<Map<String, Object>> selectEmpMapList();
-	
+	/*연봉이 가장 높은 사람 조회(로직)*/
 	public Map<String, Object> selectMapMaxsal();
-	
+	/*연봉이 가장 높은 사람 조회(쿼리)*/
 	public Map<String, Object> selectMapMaxsal2();
+	/*상사번호가 7698인 사원의 이름, 사원번호, 상사번호, 상사명을 출력*/
+	public List<Map<String, Object>> selectbossMgr(int mgr);
+	//모두조회
+	public List<EmpVO> selectempAll();
+	
+	public int updateApi(EmpVO empvo);
 }

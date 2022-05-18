@@ -14,8 +14,8 @@ public class EmpVO extends DeptVO{
 	private String ename;
 	private String job;
 	private int mgr;
-	@DateTimeFormat(pattern = "yyyy-MM")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM", timezone = "Asia/Seoul")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
 	private Date hiredate;
 	private int sal;
 	private int comm;

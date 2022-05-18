@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -54,22 +55,27 @@ public class EmpController {
 	//@PostMapping: 중요한 정보를 보내거나, 데이터를 보낼 때 post 사용
 	//대표적인 ex)회원가입
 	//@RequestBody가 파라미터로 넘어오는 VO클래스를 대신 new 해줌
+	@CrossOrigin(origins = {"*"})
 	@PostMapping("/emp")
 	public int callEepSet(@RequestBody EmpVO empVo) {
 		return empHomeService.setEmp(empVo);
 	}
 	
 	//@DeleteMapping: 자원 삭제할 때 사용
+	@CrossOrigin(origins = {"*"})
 	@DeleteMapping("/emp/empno/{empno}")
 	public int callEmpRemove(@PathVariable("empno") int empno) {
 		return empHomeService.getEmpRemoveCount(empno);
 	}
+	
 	//update
 	@PatchMapping("/emp")
 	public int callEmpUpdate(@RequestBody EmpVO empVo) {
 		return empHomeService.getEmpUpdateCount(empVo);
 	}
-	
+	/*
+	 특정직업과 특정급여이상을 받는 사람들의 comm 수정 
+	 */
 	@GetMapping("/emp/job/{jobName}/sal/{sal}")
 	public List<EmpVO> callEmp(@PathVariable("jobName") String jobName, 
 			@PathVariable("sal") int sal) {
@@ -101,6 +107,8 @@ public class EmpController {
 //		return empHomeService.getFirstNameA(search);
 //	}
 	
+	/*첫번재 이름이 A인사람 찾기
+	 emp/name?search=A*/
 	@GetMapping("/emp/name")
 	public List<EmpVO> callEmpEname(@RequestParam("search") String search){
 		return empHomeService.getEmpEname(search);
@@ -119,6 +127,7 @@ public class EmpController {
 	}
 	/*문제 1. 사원번호가 7902번인 사원
 	job을 SALESMAN, Sal을 3500으로 수정*/
+	@CrossOrigin(origins = {"*"})
 	@PatchMapping("/emp/{empno}")
 	public int callEmpSalJobUpdate(@PathVariable("empno")int empno, @RequestBody EmpVO empvo) {
 		return empHomeService.getUpdateSalJob(empno, empvo);
@@ -130,18 +139,37 @@ public class EmpController {
 	public int callEmpCommUpdate(@PathVariable("empno")int empno) {
 		return empHomeService.getEmpUpdateSalCount(empno);
 	}
-	
+	/*Map 으로 empList받기*/
 	@GetMapping("/emp/map/list")
 	public List<Map<String, Object>> callEmpMapList(){
 		return empHomeService.getEmpMapList();
 	}
+	/*연봉이 가장 높은 사람 조회(로직)*/
 	@GetMapping("/emp/map/Maxsal")
 	public Map<String, Object> callMapMaxSal(){
 		return empHomeService.getMapMaxSal();
 	}
+	/*연봉이 가장 높은 사람 조회(쿼리)*/
 	@GetMapping("/emp/map/sal/Maxsal")
 	public Map<String, Object> callMapMaxSal2(){
 		return empHomeService.getMapMaxSal2();
+	}
+	/*상사번호가 7698인 사원의 이름, 사원번호, 상사번호, 상사명을 출력*/
+	@GetMapping("/emp/map/mgr/{bossMgr}")
+	public List<Map<String, Object>> callBossMgr(@PathVariable("bossMgr")int mgr){
+		return empHomeService.getbossMgr(mgr);
+	}
+	//모두조회 ajax
+	@CrossOrigin(origins = {"*"})
+	@GetMapping("/emp/all")
+	public List<EmpVO> callEmpAll(){
+		return empHomeService.getEmpAll();
+	}
+	
+	@CrossOrigin(origins = {"*"})
+	@PatchMapping("/spi/v1/emp/{empno}")
+	public int callApi(@PathVariable("empno")int empno, @RequestBody EmpVO empvo) {
+		return empHomeService.getApi(empno, empvo);
 	}
 }
 

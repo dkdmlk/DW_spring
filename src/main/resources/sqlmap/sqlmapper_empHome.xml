@@ -175,6 +175,7 @@
 			AND	mgr IS NULL
 		</if>
 	</select>
+	
 	<update id="updateJobSal">
 		UPDATE emp
 			SET
@@ -241,4 +242,31 @@
 		where sal = (select max(sal) from emp)
 	</select>
 	
+	<select id="selectbossMgr" resultType="map">
+		select 
+ 			sawon.ENAME as '사원이름',
+ 			sawon.EMPNO as '사원번호',
+ 			boss.EMPNO as '상사번호',
+ 			boss.ENAME as '상사이름'
+		from emp as sawon
+			inner join emp as boss
+			on sawon.MGR = boss.EMPNO
+			where sawon.mgr = #{mgr}
+	</select>
+	<select id="selectempAll" resultType="EmpVO">
+		select
+			*
+		from emp as e
+		inner join dept d
+		on e.deptno = d.deptno
+		order by EMPNO
+	</select>
+	
+	<update id="updateApi">
+		UPDATE emp
+			SET
+			job = #{job},
+			sal = #{sal}
+		WHERE empno = #{empno}
+	</update>
 </mapper>

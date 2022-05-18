@@ -44,10 +44,10 @@ public class EmpHomeService {
 	//Exception : 모든에러를 잡아준다.
 	@Transactional(rollbackFor = {Exception.class})
 	public int setEmp(EmpVO vo) {
-		
-		EmpVO empvo = EmpMapper.selectDept();//empno가 null 인 detpno insert
-		int deptno = empvo.getDeptno();
-		vo.setDeptno(deptno);
+		//특정인원 insert
+//		EmpVO empvo = EmpMapper.selectDept();//empno가 null 인 detpno insert
+//		int deptno = empvo.getDeptno();
+//		vo.setDeptno(deptno);
 		int rows = EmpMapper.insertEmp(vo);//몇행 insert 되었는지 리턴
 		
 		return rows;
@@ -59,7 +59,7 @@ public class EmpHomeService {
 		int count = 0;
 		for(int i=0;i<list.size();++i) {
 			int empno = list.get(i).getEmpno();
-			if(empNo == empno) {
+			if(empNo == empno) { //급여가 3000이상인 사원번호와 넘겨받은 사원번호가 같을경우
 				int rows = EmpMapper.deleteEmp(empNo);//몇행 delete 되었는지 리턴
 				return rows;
 			}
@@ -72,6 +72,9 @@ public class EmpHomeService {
 		int rows = EmpMapper.updateEmp(vo);//몇행 update 되었는지 리턴
 		return rows;
 	}
+	/*
+	 특정직업과 특정급여이상을 받는 사람들의 comm 수정 
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	public List<EmpVO> getEmp(String job,int sal){
 		
@@ -108,7 +111,7 @@ public class EmpHomeService {
 //		}
 //		return list;
 //	}
-	
+	/*첫번재 이름이 A인사람 찾기*/
 	public List<EmpVO> getEmpEname(String search){
 		List<EmpVO> list = EmpMapper.selectEmpEname(search);
 		int count=0;
@@ -120,28 +123,20 @@ public class EmpHomeService {
 		System.out.println("이름이 A인 사람 수는! : " +count+"명");
 		return list;
 	}
-//	public List<EmpVO> getDeptSalA(int deptno,int sal){
-//		List<EmpVO> list = EmpMapper.selectDeptSalA(deptno, sal);
-//		List<EmpVO> list2 = new ArrayList<EmpVO>();
-//		for(int i=0; i<list.size();++i) {
-//			int comm = list.get(i).getComm();
-//			if(comm < 100 || comm == 0) {
-//				list2.add(list.get(i));
-//				return list2;
-//			}
-//		}
-//		return EmpMapper.selectDeptSalA(deptno, sal);
-//	}
-	
+
+	//사원사수여부
 	public List<EmpVO> getEmpIsMgrList(String isMgr){
 		return EmpMapper.selectEmpMgr(isMgr);
 	}
-	
+	/*문제 1. 사원번호가 7902번인 사원
+	job을 SALESMAN, Sal을 3500으로 수정*/
 	public int getUpdateSalJob(int empno, EmpVO vo) {
 		vo.setEmpno(empno);
 		return EmpMapper.updateJobSal(vo);
 	}
-	
+	/*문제2. 사원번호가 7844번인 사원의 
+	comm이 0이거나 null이면 기존 급여에서 500을 추가 (수정)하시오
+	comm 이 있다며 0을 리턴*/
 	@Transactional(rollbackFor = Exception.class)
 	public int getEmpUpdateSalCount(int empno) {
 		EmpVO vo = EmpMapper.selectEmpCommSal(empno);
@@ -155,11 +150,11 @@ public class EmpHomeService {
 		}
 		return 0;
 	}
-	
+	/*Map 으로 empList받기*/
 	public List<Map<String, Object>> getEmpMapList(){
 		return EmpMapper.selectEmpMapList();
 	}
-	
+	/*연봉이 가장 높은 사람 조회(로직)*/
 	public Map<String, Object> getMapMaxSal(){
 		List<Map<String, Object>> list=EmpMapper.selectEmpMapList();
 		Map<String, Object> map = EmpMapper.selectMapMaxsal();
@@ -171,8 +166,21 @@ public class EmpHomeService {
 		}
 		return EmpMapper.selectMapMaxsal();
 	}
-	
+	/*연봉이 가장 높은 사람 조회(쿼리)*/
 	public Map<String, Object>getMapMaxSal2(){
 		return EmpMapper.selectMapMaxsal2();
+	}
+	/*상사번호가 7698인 사원의 이름, 사원번호, 상사번호, 상사명을 출력*/
+	public List<Map<String, Object>> getbossMgr(int mgr){
+		return EmpMapper.selectbossMgr(mgr);
+	}
+	//모두조회
+	public List<EmpVO> getEmpAll(){
+		return EmpMapper.selectempAll();
+	}
+	
+	public int getApi(int empno,EmpVO empvo) {
+		empvo.setEmpno(empno);
+		return EmpMapper.updateApi(empvo);
 	}
 }
